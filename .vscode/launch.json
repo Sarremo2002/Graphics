@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run OpenGL Program",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/main.exe",
+            "args": [],
+            "cwd": "${fileDirname}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe"
+        }
+    ]
+}
