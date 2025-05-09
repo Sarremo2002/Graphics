@@ -1,10 +1,3 @@
-/*
- * MainMenu.cpp - Main menu implementation for PlayStation-style mini-console
- *
- * Author: Selim Waleed
- *
- */
-
 #include "MainMenu.h"
 #include <cstdlib>
 #include <ctime>
@@ -33,7 +26,8 @@ void MainMenu::init()
     // Initialize main menu buttons
     mainButtons.clear();
     mainButtons.push_back(Button(220, 320, 200, 60, "Tic Tac Toe", STATE_TIC_TAC_TOE));
-    mainButtons.push_back(Button(220, 80, 200, 60, "Difficulty", STATE_MAIN_MENU));
+    mainButtons.push_back(Button(220, 200, 200, 60, "Difficulty", STATE_MAIN_MENU)); // Adjusted y position
+    mainButtons.push_back(Button(220, 80, 200, 60, "Back", STATE_MAIN_MENU));        // Added Back button
 
     // Initialize difficulty selection buttons
     difficultyButtons.clear();
@@ -299,6 +293,11 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                         currentScreen = SCREEN_DIFFICULTY;
                         return STATE_MAIN_MENU;
                     }
+                    else if (btn.label == "Back")
+                    {
+                        currentScreen = SCREEN_INITIAL;
+                        return STATE_MAIN_MENU;
+                    }
                     else
                     {
                         return btn.targetState;
@@ -315,7 +314,7 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                 {
                     if (btn.label == "Back")
                     {
-                        currentScreen = SCREEN_MAIN;
+                        currentScreen = SCREEN_INITIAL; // Already updated in previous request
                     }
                     else if (btn.label == "Easy")
                     {
@@ -374,7 +373,11 @@ void MainMenu::handleKeyPress(unsigned char key)
     {
         if (currentScreen == SCREEN_DIFFICULTY)
         {
-            currentScreen = SCREEN_MAIN;
+            currentScreen = SCREEN_INITIAL;
+        }
+        else if (currentScreen == SCREEN_MAIN)
+        {
+            currentScreen = SCREEN_INITIAL;
         }
     }
 }

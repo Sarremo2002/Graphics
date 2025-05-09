@@ -1,19 +1,3 @@
-/*
- * TicTacToe.cpp - Tic Tac Toe game implementation
- *
- * Authors:
- * - Bob Chen [BC]: Game logic & winner detection
- * - Carol Martinez [CM]: Grid rendering & animations
- * - Dave Johnson [DJ]: Menu integration & input handling
- *
- * Notes:
- * - Added dynamic grid size based on difficulty - BC
- * - Win detection algorithm optimized for larger grids - BC
- * - Drawing routines polished with cool transitions - CM
- * - Could add sound effects later? - DJ
- * - Animations removed as per request
- */
-
 #include "TicTacToe.h"
 #include <cmath>
 #include <iostream>
@@ -50,13 +34,13 @@ void TicTacToe::init(Difficulty difficulty)
     switch (difficulty)
     {
     case DIFFICULTY_EASY:
-        gridSize = 3; // 3x3 grid
+        gridSize = 3; // 3x3
         break;
     case DIFFICULTY_MEDIUM:
-        gridSize = 4; // 4x4 grid
+        gridSize = 4; // 4x4
         break;
     case DIFFICULTY_HARD:
-        gridSize = 5; // 5x5 grid
+        gridSize = 5; // 5x5
         break;
     default:
         gridSize = 3;
