@@ -86,6 +86,10 @@ void TicTacToe::render()
     glColor3f(1.0f, 1.0f, 1.0f);
     string turnText = isPlayerXTurn ? "Player X's Turn" : "Player O's Turn";
     renderText(320, 450, GLUT_BITMAP_HELVETICA_18, turnText, true);
+
+    // Draw ESC key hint
+    glColor3f(0.7f, 0.7f, 0.7f);
+    renderText(320, 20, GLUT_BITMAP_HELVETICA_10, "Press ESC to return to main menu", true);
 }
 
 void TicTacToe::drawBackground()
@@ -273,6 +277,10 @@ void TicTacToe::drawResultScreen()
     glColor3f(0.8f, 0.8f, 0.8f);
     renderText(320, 180, GLUT_BITMAP_HELVETICA_12, "Click anywhere to play again", true);
 
+    // Draw ESC key hint
+    glColor3f(0.7f, 0.7f, 0.7f);
+    renderText(320, 150, GLUT_BITMAP_HELVETICA_10, "Press ESC to return to main menu", true);
+
     // Draw Back button
     drawButton(backButton);
 }
@@ -398,7 +406,11 @@ void TicTacToe::handleMouseMove(int x, int y)
 
 GameState TicTacToe::handleKeyPress(unsigned char key)
 {
-    
+    // Handle ESC key to return to main menu
+    if (key == 27) // ASCII for ESC key
+    {
+        return STATE_MAIN_MENU;
+    }
 
     if (showingResultScreen && (key == ' ' || key == 13)) // Space or Enter
     {

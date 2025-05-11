@@ -28,6 +28,7 @@ void MainMenu::init()
     mainButtons.push_back(Button(220, 320, 200, 60, "Tic Tac Toe", STATE_TIC_TAC_TOE));
     mainButtons.push_back(Button(220, 200, 200, 60, "Controls", STATE_MAIN_MENU));
     mainButtons.push_back(Button(220, 80, 200, 60, "Difficulty", STATE_MAIN_MENU));
+    mainButtons.push_back(Button(20, 20, 100, 40, "Back", STATE_MAIN_MENU));
 
     // Initialize difficulty selection buttons
     difficultyButtons.clear();
@@ -35,7 +36,10 @@ void MainMenu::init()
     difficultyButtons.push_back(Button(220, 220, 200, 60, "Medium", STATE_MAIN_MENU));
     difficultyButtons.push_back(Button(220, 140, 200, 60, "Hard", STATE_MAIN_MENU));
     difficultyButtons.push_back(Button(20, 20, 100, 40, "Back", STATE_MAIN_MENU));
-    
+
+    // Initialize controls screen buttons
+    controlsButtons.clear();
+    controlsButtons.push_back(Button(20, 20, 100, 40, "Back", STATE_MAIN_MENU));
 
     // Initialize star background
     initStars();
@@ -159,20 +163,17 @@ void MainMenu::render()
     }
     else if (currentScreen == SCREEN_CONTROLS)
     {
-  
-    glColor3f(1.0f, 1.0f, 1.0f);
-    renderText(320, 400, GLUT_BITMAP_TIMES_ROMAN_24, "Controls", true);
+        glColor3f(1.0f, 1.0f, 1.0f);
+        renderText(320, 400, GLUT_BITMAP_TIMES_ROMAN_24, "Controls", true);
 
-    
-    renderText(320, 320, GLUT_BITMAP_HELVETICA_12, "Use the mouse to click on menu buttons.", true);
-    renderText(320, 290, GLUT_BITMAP_HELVETICA_12, "In-game controls will vary by game mode.", true);
-    renderText(320, 260, GLUT_BITMAP_HELVETICA_12, "Press ESC to return to previous screen .", true);
+        renderText(320, 320, GLUT_BITMAP_HELVETICA_12, "Use the mouse to click on menu buttons.", true);
+        renderText(320, 290, GLUT_BITMAP_HELVETICA_12, "In-game controls will vary by game mode.", true);
+        renderText(320, 260, GLUT_BITMAP_HELVETICA_12, "Press ESC to return to previous screen.", true);
 
-    
-    for (const auto &btn : controlsButtons)
-    {
-        drawButton(btn);
-    }
+        for (const auto &btn : controlsButtons)
+        {
+            drawButton(btn);
+        }
     }
 }
 
@@ -311,8 +312,14 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                         currentScreen = SCREEN_DIFFICULTY;
                         return STATE_MAIN_MENU;
                     }
-                    else if(btn.label=="Controls"){
-                        currentScreen= SCREEN_CONTROLS;
+                    else if (btn.label == "Controls")
+                    {
+                        currentScreen = SCREEN_CONTROLS;
+                        return STATE_MAIN_MENU;
+                    }
+                    else if (btn.label == "Back")
+                    {
+                        currentScreen = SCREEN_INITIAL;
                         return STATE_MAIN_MENU;
                     }
                     else
@@ -331,7 +338,7 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                 {
                     if (btn.label == "Back")
                     {
-                        currentScreen = SCREEN_INITIAL; // Already updated in previous request
+                        currentScreen = SCREEN_MAIN; // Fixed: Return to SCREEN_MAIN instead of SCREEN_INITIAL
                     }
                     else if (btn.label == "Easy")
                     {
@@ -352,24 +359,21 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                 }
             }
         }
-
         else if (currentScreen == SCREEN_CONTROLS)
-{
-    for (const auto &btn : controlsButtons)
-    {
-        if (x >= btn.x && x <= btn.x + btn.width &&
-            y >= btn.y && y <= btn.y + btn.height)
         {
-            if (btn.label == "Back")
+            for (const auto &btn : controlsButtons)
             {
-                currentScreen = SCREEN_MAIN;
+                if (x >= btn.x && x <= btn.x + btn.width &&
+                    y >= btn.y && y <= btn.y + btn.height)
+                {
+                    if (btn.label == "Back")
+                    {
+                        currentScreen = SCREEN_MAIN;
+                    }
+                    return STATE_MAIN_MENU;
+                }
             }
-            return STATE_MAIN_MENU;
         }
-    }
-}
-
-
     }
     return STATE_MAIN_MENU;
 }
@@ -400,25 +404,29 @@ void MainMenu::handleMouseMove(int x, int y)
                            y >= btn.y && y <= btn.y + btn.height);
         }
     }
+    else if (currentScreen == SCREEN_CONTROLS)
+    {
+        for (auto &btn : controlsButtons)
+        {
+            btn.hovered = (x >= btn.x && x <= btn.x + btn.width &&
+                           y >= btn.y && y <= btn.y + btn.height);
+        }
+    }
 }
 
 void MainMenu::handleKeyPress(unsigned char key)
-{  if (key == 27) // Escape key
+{
+    if (key == 27) // Escape key
     {
-        if (currentScreen == SCREEN_MAIN )
+        if (currentScreen == SCREEN_MAIN)
         {
             currentScreen = SCREEN_INITIAL;
         }
-        if(currentScreen==SCREEN_CONTROLS){
-
-            currentScreen=SCREEN_MAIN;
+        else if (currentScreen == SCREEN_CONTROLS || currentScreen == SCREEN_DIFFICULTY)
+        {
+            currentScreen = SCREEN_MAIN;
         }
     }
-
-
-    
-
-    
 }
 
 void MainMenu::handleSpecialKeys(int key)

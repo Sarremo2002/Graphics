@@ -5,15 +5,13 @@
 #include <string>
 #include <vector>
 
-// Shared game state enum used across modules
 enum GameState
 {
     STATE_MAIN_MENU,
     STATE_TIC_TAC_TOE,
-    STATE_EXIT // Added for Exit button functionality
+    STATE_EXIT
 };
 
-// Difficulty levels
 enum Difficulty
 {
     DIFFICULTY_EASY,
@@ -21,7 +19,6 @@ enum Difficulty
     DIFFICULTY_HARD
 };
 
-// Button structure for menu UI
 struct Button
 {
     float x, y, width, height;
@@ -35,7 +32,6 @@ struct Button
           label(label), targetState(target), hovered(false) {}
 };
 
-// Star particle for background animation
 struct Star
 {
     float x, y;
@@ -61,33 +57,29 @@ public:
     Difficulty getSelectedDifficulty() const;
 
 private:
-    // Menu screens
     enum Screen
     {
-        SCREEN_INITIAL, // Added for initial screen
+        SCREEN_INITIAL,
         SCREEN_MAIN,
         SCREEN_DIFFICULTY,
         SCREEN_CONTROLS
     };
 
-    // UI elements and state
     Screen currentScreen;
-    std::vector<Button> initialButtons; // Added for initial screen buttons
+    std::vector<Button> initialButtons;
     std::vector<Button> mainButtons;
     std::vector<Button> difficultyButtons;
     std::vector<Button> controlsButtons;
     std::vector<Star> stars;
     Difficulty selectedDifficulty;
 
-    // UI helper functions
     void drawBackground();
     void drawButton(const Button &btn);
     void renderText(float x, float y, void *font, const std::string &text, bool center = false);
     void renderColoredText(float x, float y, void *font, const std::string &text, float r, float g, float b, bool center, bool underline); // Added for colored difficulty display
 
-    // Star animation
     void initStars();
     void updateStars();
 };
 
-#endif // MAIN_MENU_H
+#endif
