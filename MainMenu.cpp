@@ -311,6 +311,10 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                         currentScreen = SCREEN_DIFFICULTY;
                         return STATE_MAIN_MENU;
                     }
+                    else if(btn.label=="Controls"){
+                        currentScreen= SCREEN_CONTROLS;
+                        return STATE_MAIN_MENU;
+                    }
                     else
                     {
                         return btn.targetState;
@@ -399,12 +403,15 @@ void MainMenu::handleMouseMove(int x, int y)
 }
 
 void MainMenu::handleKeyPress(unsigned char key)
-{
-    if (key == 27) // Escape key
+{  if (key == 27) // Escape key
     {
         if (currentScreen == SCREEN_MAIN )
         {
-            currentScreen = SCREEN_MAIN;
+            currentScreen = SCREEN_INITIAL;
+        }
+        if(currentScreen==SCREEN_CONTROLS){
+
+            currentScreen=SCREEN_MAIN;
         }
     }
 
