@@ -28,11 +28,12 @@ void MainMenu::init()
     // Initialize initial screen buttons
     initialButtons.clear();
     initialButtons.push_back(Button(220, 240, 200, 60, "Start", STATE_MAIN_MENU));
-    initialButtons.push_back(Button(220, 160, 200, 60, "Touch Grass", STATE_EXIT));
+    initialButtons.push_back(Button(220, 160, 200, 60, "Exit", STATE_EXIT));
 
     // Initialize main menu buttons
     mainButtons.clear();
     mainButtons.push_back(Button(220, 320, 200, 60, "Tic Tac Toe", STATE_TIC_TAC_TOE));
+    mainButtons.push_back(Button(220, 200, 200, 60, "Controls", STATE_MAIN_MENU));
     mainButtons.push_back(Button(220, 80, 200, 60, "Difficulty", STATE_MAIN_MENU));
 
     // Initialize difficulty selection buttons
@@ -41,6 +42,7 @@ void MainMenu::init()
     difficultyButtons.push_back(Button(220, 220, 200, 60, "Medium", STATE_MAIN_MENU));
     difficultyButtons.push_back(Button(220, 140, 200, 60, "Hard", STATE_MAIN_MENU));
     difficultyButtons.push_back(Button(20, 20, 100, 40, "Back", STATE_MAIN_MENU));
+    
 
     // Initialize star background
     initStars();
@@ -162,6 +164,23 @@ void MainMenu::render()
         }
         renderColoredText(320, 80, GLUT_BITMAP_HELVETICA_12, difficultyText, r, g, b, true, true);
     }
+    else if (currentScreen == SCREEN_CONTROLS)
+    {
+  
+    glColor3f(1.0f, 1.0f, 1.0f);
+    renderText(320, 400, GLUT_BITMAP_TIMES_ROMAN_24, "Controls", true);
+
+    
+    renderText(320, 320, GLUT_BITMAP_HELVETICA_12, "Use the mouse to click on menu buttons.", true);
+    renderText(320, 290, GLUT_BITMAP_HELVETICA_12, "In-game controls will vary by game mode.", true);
+    renderText(320, 260, GLUT_BITMAP_HELVETICA_12, "Press ESC to return to previous screen .", true);
+
+    
+    for (const auto &btn : controlsButtons)
+    {
+        drawButton(btn);
+    }
+    }
 }
 
 void MainMenu::drawBackground()
@@ -226,7 +245,7 @@ void MainMenu::drawButton(const Button &btn)
 
     // Draw button text
     glColor3f(1.0f, 1.0f, 1.0f);
-    renderText(btn.x + (btn.width / 2), btn.y + (btn.height / 2) + 5, GLUT_BITMAP_HELVETICA_18, btn.label, true);
+    renderText(btn.x + (btn.width / 2), btn.y + (btn.height / 2) + 5, GLUT_BITMAP_HELVETICA_12, btn.label, true);
 }
 
 void MainMenu::renderText(float x, float y, void *font, const std::string &text, bool center)
@@ -299,6 +318,10 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                         currentScreen = SCREEN_DIFFICULTY;
                         return STATE_MAIN_MENU;
                     }
+                    else if(btn.label=="Controls"){
+                        currentScreen= SCREEN_CONTROLS;
+                        return STATE_MAIN_MENU;
+                    }
                     else
                     {
                         return btn.targetState;
@@ -336,6 +359,24 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                 }
             }
         }
+
+        else if (currentScreen == SCREEN_CONTROLS)
+{
+    for (const auto &btn : controlsButtons)
+    {
+        if (x >= btn.x && x <= btn.x + btn.width &&
+            y >= btn.y && y <= btn.y + btn.height)
+        {
+            if (btn.label == "Back")
+            {
+                currentScreen = SCREEN_MAIN;
+            }
+            return STATE_MAIN_MENU;
+        }
+    }
+}
+
+
     }
     return STATE_MAIN_MENU;
 }
@@ -372,11 +413,20 @@ void MainMenu::handleKeyPress(unsigned char key)
 {
     if (key == 27) // Escape key
     {
-        if (currentScreen == SCREEN_DIFFICULTY)
+        if (currentScreen == SCREEN_MAIN )
         {
-            currentScreen = SCREEN_MAIN;
+            currentScreen = SCREEN_INITIAL;
+        }
+        if(currentScreen==SCREEN_CONTROLS){
+
+            currentScreen=SCREEN_MAIN;
         }
     }
+
+
+    
+
+    
 }
 
 void MainMenu::handleSpecialKeys(int key)

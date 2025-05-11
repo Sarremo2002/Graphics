@@ -414,10 +414,7 @@ void TicTacToe::handleMouseMove(int x, int y)
 
 GameState TicTacToe::handleKeyPress(unsigned char key)
 {
-    if (key == 27) // Escape key
-    {
-        return STATE_MAIN_MENU;
-    }
+    
 
     if (showingResultScreen && (key == ' ' || key == 13)) // Space or Enter
     {

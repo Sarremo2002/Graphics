@@ -68,7 +68,8 @@ private:
     {
         SCREEN_INITIAL, // Added for initial screen
         SCREEN_MAIN,
-        SCREEN_DIFFICULTY
+        SCREEN_DIFFICULTY,
+        SCREEN_CONTROLS
     };
 
     // UI elements and state
@@ -76,6 +77,7 @@ private:
     std::vector<Button> initialButtons; // Added for initial screen buttons
     std::vector<Button> mainButtons;
     std::vector<Button> difficultyButtons;
+    std::vector<Button> controlsButtons;
     std::vector<Star> stars;
     Difficulty selectedDifficulty;
 
