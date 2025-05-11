@@ -1,10 +1,3 @@
-/*
- * MainMenu.cpp - Main menu implementation for PlayStation-style mini-console
- *
- * Author: Selim Waleed
- *
- */
-
 #include "MainMenu.h"
 #include <cstdlib>
 #include <ctime>
@@ -318,10 +311,6 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                         currentScreen = SCREEN_DIFFICULTY;
                         return STATE_MAIN_MENU;
                     }
-                    else if(btn.label=="Controls"){
-                        currentScreen= SCREEN_CONTROLS;
-                        return STATE_MAIN_MENU;
-                    }
                     else
                     {
                         return btn.targetState;
@@ -338,7 +327,7 @@ GameState MainMenu::handleMouseClick(int button, int state, int x, int y)
                 {
                     if (btn.label == "Back")
                     {
-                        currentScreen = SCREEN_MAIN;
+                        currentScreen = SCREEN_INITIAL; // Already updated in previous request
                     }
                     else if (btn.label == "Easy")
                     {
@@ -415,11 +404,7 @@ void MainMenu::handleKeyPress(unsigned char key)
     {
         if (currentScreen == SCREEN_MAIN )
         {
-            currentScreen = SCREEN_INITIAL;
-        }
-        if(currentScreen==SCREEN_CONTROLS){
-
-            currentScreen=SCREEN_MAIN;
+            currentScreen = SCREEN_MAIN;
         }
     }
 

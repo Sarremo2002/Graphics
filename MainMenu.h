@@ -10,8 +10,6 @@ enum GameState
 {
     STATE_MAIN_MENU,
     STATE_TIC_TAC_TOE,
-    STATE_PONG,
-    STATE_THIRD_GAME,
     STATE_EXIT // Added for Exit button functionality
 };
 
